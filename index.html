@@ -798,6 +798,187 @@ label.f { color: #72818D; }
   }
 }
 
+
+
+/* =========================================================
+   海洋油畫背景加強版
+   只更換背景，不修改原本功能、卡片、圖示或 JavaScript
+   ========================================================= */
+
+body {
+  color: var(--cocoa);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  background:
+    /* 海面光點 */
+    radial-gradient(circle at 18% 24%, rgba(255,255,255,.95) 0 1px, transparent 2px),
+    radial-gradient(circle at 34% 31%, rgba(255,255,255,.78) 0 1px, transparent 2px),
+    radial-gradient(circle at 55% 22%, rgba(255,255,255,.88) 0 1px, transparent 2px),
+    radial-gradient(circle at 76% 34%, rgba(255,255,255,.82) 0 1px, transparent 2px),
+
+    /* 粉色沙岸 */
+    radial-gradient(ellipse at 82% 92%,
+      rgba(250, 196, 216, .82) 0%,
+      rgba(255, 222, 230, .72) 27%,
+      rgba(255, 239, 231, .42) 49%,
+      transparent 68%),
+
+    /* 奶油沙灘 */
+    radial-gradient(ellipse at 70% 100%,
+      rgba(255, 244, 218, .88) 0%,
+      rgba(255, 238, 220, .68) 35%,
+      transparent 66%),
+
+    /* 淺海 */
+    radial-gradient(ellipse at 30% 62%,
+      rgba(174, 225, 242, .82) 0%,
+      rgba(202, 238, 248, .72) 34%,
+      transparent 70%),
+
+    /* 天空與遠海 */
+    linear-gradient(
+      180deg,
+      #CDECF8 0%,
+      #DCF3FA 24%,
+      #C9EAF5 47%,
+      #DDF4F7 63%,
+      #FCE8EE 84%,
+      #FFF4E4 100%
+    );
+  background-attachment: fixed;
+  background-size:
+    170px 170px,
+    210px 210px,
+    190px 190px,
+    230px 230px,
+    auto,
+    auto,
+    auto,
+    auto;
+}
+
+/* 白色浪花與油畫筆觸 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: .88;
+  background:
+    /* 第一層浪花 */
+    radial-gradient(ellipse at 18% 63%,
+      transparent 0 29%,
+      rgba(255,255,255,.88) 30% 32%,
+      rgba(255,255,255,.36) 33% 36%,
+      transparent 37%),
+    radial-gradient(ellipse at 48% 69%,
+      transparent 0 31%,
+      rgba(255,255,255,.82) 32% 34%,
+      rgba(255,255,255,.32) 35% 38%,
+      transparent 39%),
+    radial-gradient(ellipse at 78% 76%,
+      transparent 0 30%,
+      rgba(255,255,255,.86) 31% 33%,
+      rgba(255,255,255,.34) 34% 37%,
+      transparent 38%),
+
+    /* 第二層較細浪線 */
+    radial-gradient(ellipse at 8% 75%,
+      transparent 0 37%,
+      rgba(255,255,255,.58) 38% 39%,
+      transparent 40%),
+    radial-gradient(ellipse at 60% 83%,
+      transparent 0 38%,
+      rgba(255,255,255,.52) 39% 40%,
+      transparent 41%),
+
+    /* 油畫柔霧刷痕 */
+    repeating-linear-gradient(
+      168deg,
+      rgba(255,255,255,.11) 0 7px,
+      rgba(255,255,255,0) 7px 18px
+    );
+  filter: blur(.3px);
+}
+
+/* 柔霧、海面反光與淡淡色塊 */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(110deg,
+      rgba(255,255,255,.34) 0%,
+      transparent 22%,
+      rgba(255,255,255,.18) 43%,
+      transparent 66%,
+      rgba(255,255,255,.25) 100%),
+    radial-gradient(circle at 58% 35%,
+      rgba(255,255,255,.58),
+      transparent 22%),
+    radial-gradient(circle at 28% 48%,
+      rgba(255,255,255,.28),
+      transparent 18%);
+  mix-blend-mode: screen;
+}
+
+/* 讓卡片像漂浮在海面上的玻璃 */
+.card,
+.plan-card,
+.hero {
+  backdrop-filter: blur(16px) saturate(1.05);
+  -webkit-backdrop-filter: blur(16px) saturate(1.05);
+}
+
+.card {
+  background: rgba(255,255,255,.72);
+}
+
+.plan-card {
+  background: linear-gradient(
+    145deg,
+    rgba(255,255,255,.84),
+    rgba(248,253,255,.69)
+  );
+}
+
+.cloud-setup {
+  background: linear-gradient(
+    145deg,
+    rgba(236,249,253,.80),
+    rgba(255,240,247,.74)
+  );
+}
+
+/* 手機版讓浪花位置更自然 */
+@media (max-width: 540px) {
+  body {
+    background-size:
+      130px 130px,
+      150px 150px,
+      140px 140px,
+      170px 170px,
+      auto,
+      auto,
+      auto,
+      auto;
+  }
+
+  body::before {
+    background-position:
+      -120px 40px,
+      0 130px,
+      120px 250px,
+      -80px 360px,
+      70px 460px,
+      center;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1190,7 +1371,7 @@ function addPlan() {
 function deletePlan(id) {
   const p = getPlan(id);
   confirmBox({
-    emoji: '🗑️', title: `刪除「${p.name}」？`,
+    emoji: '🪨', title: `刪除「${p.name}」？`,
     body: '計劃裡的成員與帳目會一起消失，這個動作無法復原喔。', okText: '刪除',
   }, () => {
     state.plans = state.plans.filter(x => x.id !== id);
@@ -1425,7 +1606,7 @@ function homeView() {
         <div class="meta">👥 ${p.members.length} 人 ・ 🦀 ${p.expenses.length} 筆 ・ 共 ${fmt(total)} ${p.baseCurrency} ・ ${p.createdAt}</div>
       </div>
       <span class="badge ${p.closed ? 'badge-closed' : 'badge-open'}">${p.closed ? '🌙 已結案' : '🌱 進行中'}</span>
-      <button class="btn btn-ghost btn-sm" data-delplan="${p.id}" title="刪除計劃">🗑️</button>
+      <button class="btn btn-ghost btn-sm" data-delplan="${p.id}" title="刪除計劃">🪨</button>
     </div>`;
   }).join('');
 
@@ -1577,7 +1758,7 @@ function planView(p) {
           <div class="a">${fmt(e.amount)} ${e.currency}</div>
           ${isB ? '' : `<div class="c">≈ ${fmt(base)} ${p.baseCurrency}</div>`}
         </div>
-        ${locked ? '' : `<button class="edit" data-editexp="${e.id}" title="編輯">🪸</button><button class="del" data-delexp="${e.id}" title="刪除">🗑️</button>`}
+        ${locked ? '' : `<button class="edit" data-editexp="${e.id}" title="編輯">🪸</button><button class="del" data-delexp="${e.id}" title="刪除">🪨</button>`}
         <span class="chev">▶</span>
       </div>
       ${detail}
