@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>奶油分帳 🧈 Butter Split</title>
+<title>海鹽奶油分帳 🌊 Butter Split</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Gaegu:wght@700&display=swap" rel="stylesheet">
 <style>
@@ -333,6 +333,471 @@
     .bal .nm { width: 64px; }
     .bal .v { min-width: 88px; }
   }
+
+
+/* =========================================================
+   Butter Split v2｜海鹽奶油風 Sea Salt Butter Edition
+   只改外觀，保留原本 Google Sheets、分享、匯率與編輯功能
+   ========================================================= */
+:root {
+  --bg: #F4FBFE;
+  --bg-deep: #E8F5FA;
+  --card: rgba(255, 255, 255, .82);
+  --line: #D4EAF2;
+  --butter: #FFF0C9;
+  --butter-deep: #F2DDA4;
+  --caramel: #9AD8EC;
+  --caramel-deep: #68BBD9;
+  --cocoa: #505A67;
+  --mocha: #74838F;
+  --milk-tea: #A0ADB6;
+  --berry: #F0BFD2;
+  --berry-deep: #D58EAB;
+  --matcha: #BDDCC9;
+  --matcha-deep: #6F9C83;
+  --radius: 25px;
+  --shadow: 0 12px 36px rgba(84, 151, 179, .13);
+  --shadow-sm: 0 6px 20px rgba(84, 151, 179, .09);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  color: var(--cocoa);
+  background:
+    radial-gradient(circle at 10% 8%, rgba(183, 226, 243, .70), transparent 30%),
+    radial-gradient(circle at 90% 18%, rgba(247, 211, 226, .64), transparent 28%),
+    radial-gradient(circle at 18% 82%, rgba(255, 239, 199, .64), transparent 29%),
+    radial-gradient(circle at 85% 86%, rgba(184, 226, 243, .58), transparent 31%),
+    linear-gradient(145deg, #F4FBFE 0%, #FFF8FB 51%, #FFFDF7 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .75;
+}
+
+body::before {
+  width: 410px;
+  height: 410px;
+  left: -195px;
+  top: 12%;
+  border-radius: 45% 55% 61% 39% / 55% 43% 57% 45%;
+  background: linear-gradient(145deg,
+    rgba(174, 222, 241, .44),
+    rgba(255,255,255,.12),
+    rgba(244, 197, 217, .32));
+  filter: blur(3px);
+  transform: rotate(-15deg);
+}
+
+body::after {
+  width: 470px;
+  height: 260px;
+  right: -210px;
+  bottom: 4%;
+  border-radius: 56% 44% 48% 52% / 65% 50% 50% 35%;
+  background: linear-gradient(155deg,
+    rgba(245, 206, 222, .34),
+    rgba(255, 236, 193, .28),
+    rgba(176, 222, 240, .38));
+  filter: blur(3px);
+  transform: rotate(10deg);
+}
+
+.wrap {
+  max-width: 790px;
+  padding: 30px 18px 86px;
+}
+
+/* 首頁海岸主視覺 */
+.hero {
+  min-height: 178px;
+  padding: 30px 30px;
+  border: 2px solid rgba(255,255,255,.88);
+  border-radius: 31px;
+  background:
+    radial-gradient(circle at 75% 73%, rgba(246, 208, 224, .72), transparent 29%),
+    radial-gradient(circle at 23% 15%, rgba(255,255,255,.90), transparent 30%),
+    linear-gradient(150deg, #BEE6F5 0%, #E7F7FC 45%, #F7D8E5 100%);
+  box-shadow:
+    0 16px 42px rgba(74, 145, 175, .17),
+    inset 0 1px 0 rgba(255,255,255,.92);
+  isolation: isolate;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -8%;
+  right: -8%;
+  bottom: -44px;
+  height: 120px;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 50% 0%,
+      rgba(255,255,255,.96) 0 14%,
+      rgba(255,255,255,.46) 15% 24%,
+      transparent 25%),
+    linear-gradient(to bottom, rgba(255,255,255,.13), rgba(255,255,255,.68));
+  opacity: .78;
+  transform: rotate(-3deg);
+}
+
+.hero::after {
+  content: "🐚";
+  right: 20px;
+  bottom: 1px;
+  font-size: 78px;
+  opacity: .20;
+  transform: rotate(-13deg);
+}
+
+.hero .logo {
+  width: 70px;
+  height: 70px;
+  border-radius: 23px;
+  background: rgba(255,255,255,.78);
+  border: 2px solid rgba(255,255,255,.94);
+  box-shadow:
+    0 9px 24px rgba(83, 150, 178, .14),
+    inset 0 1px 0 #fff;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.hero h1 {
+  color: #4F5966;
+  text-shadow: 0 1px 0 rgba(255,255,255,.9);
+}
+
+.hero h1 .en {
+  color: #D28BA8;
+}
+
+.hero p {
+  color: #687986;
+  line-height: 1.8;
+}
+
+/* 玻璃卡片 */
+.card {
+  background: rgba(255,255,255,.78);
+  border: 1.8px solid rgba(211, 234, 243, .96);
+  border-radius: var(--radius);
+  box-shadow:
+    0 10px 30px rgba(78, 146, 174, .10),
+    inset 0 1px 0 rgba(255,255,255,.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.card h2 { color: #535E6A; }
+
+.card h2 .dot {
+  min-width: 35px;
+  height: 35px;
+  padding: 0 7px;
+  border-radius: 12px;
+  display: inline-grid;
+  place-items: center;
+  background: linear-gradient(145deg, #E9F7FC, #FFF0F5);
+  border: 1.5px solid rgba(204, 232, 242, .94);
+  box-shadow: 0 4px 12px rgba(86, 151, 177, .08);
+}
+
+/* 輸入框 */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+  color: #53606C;
+  background: rgba(255,255,255,.82);
+  border-color: #D8EAF1;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.94);
+}
+
+input::placeholder { color: #B2BEC6; }
+
+input:focus,
+select:focus {
+  border-color: #8FD1E8;
+  box-shadow:
+    0 0 0 4px rgba(143, 209, 232, .23),
+    0 7px 19px rgba(105, 184, 215, .10);
+}
+
+input:disabled { background: #EAF5F8; }
+label.f { color: #72818D; }
+
+/* 按鈕 */
+.btn-primary {
+  color: #fff;
+  background: linear-gradient(135deg, #78C8E4 0%, #A7DDED 48%, #E3ADC4 100%);
+  box-shadow:
+    0 8px 20px rgba(107, 190, 220, .27),
+    inset 0 1px 0 rgba(255,255,255,.35);
+}
+
+.btn-butter {
+  color: #57616B;
+  background: linear-gradient(135deg, #FFF0C8, #F4D5E2);
+  box-shadow: 0 7px 17px rgba(221, 175, 197, .19);
+}
+
+.btn-ghost {
+  color: #6F7E89;
+  background: rgba(255,255,255,.48);
+  border-color: #D6E9F1;
+}
+
+.btn-danger {
+  color: #fff;
+  background: linear-gradient(135deg, #EFB8CD, #D68DAA);
+}
+
+.btn:hover {
+  filter: saturate(1.04) brightness(1.035);
+}
+
+/* 雲端同步 */
+.cloud-setup {
+  background: linear-gradient(145deg, rgba(235,248,253,.88), rgba(255,241,247,.83));
+  border-color: #CDE7F1;
+}
+
+.cloud-setup .ok-line { color: #6D9C84; }
+
+.sync-badge {
+  color: #6B9C82;
+  background: #EAF7EF;
+}
+
+.sync-badge.busy {
+  color: #B58C52;
+  background: #FFF3D7;
+}
+
+.sync-badge.err {
+  color: #CB819E;
+  background: #FDEAF1;
+}
+
+/* 計畫卡 */
+.plan-card {
+  background: linear-gradient(145deg, rgba(255,255,255,.88), rgba(248,253,255,.76));
+  border-color: #D7EAF2;
+}
+
+.plan-card:hover {
+  border-color: #9AD6E9;
+  box-shadow: 0 14px 34px rgba(82, 153, 181, .15);
+}
+
+.plan-card .emoji,
+.exp .icon {
+  background: linear-gradient(145deg, #E7F7FC, #FFF0F5);
+  border: 1px solid rgba(208, 233, 242, .94);
+}
+
+.plan-card .name { color: #4F5B67; }
+.plan-card .meta,
+.exp .s,
+.exp .amt .c { color: #9AA8B2; }
+
+.badge-open {
+  background: #ECF8F1;
+  color: #6B9B80;
+  border-color: #C7E2D2;
+}
+
+.badge-closed {
+  background: #FFF0F5;
+  color: #C9829F;
+  border-color: #EFC8D7;
+}
+
+/* 成員與分攤 */
+.chip {
+  color: #596773;
+  background: linear-gradient(135deg, #E8F7FC, #FFF0F5);
+  border-color: #CDE7F1;
+}
+
+.pick label {
+  color: #71808B;
+  background: rgba(255,255,255,.72);
+  border-color: #D7E9F0;
+}
+
+.pick label:has(input:checked) {
+  color: #52606B;
+  background: linear-gradient(135deg, #C4EAF7, #F4D3E1);
+  border-color: #A5D9EA;
+}
+
+.seg { background: #E8F4F8; }
+.seg label:has(input:checked) { background: rgba(255,255,255,.92); }
+
+/* 帳目 */
+.exp-wrap { border-color: #D9EAF1; }
+.exp:hover { background: linear-gradient(90deg, rgba(232,247,252,.72), rgba(255,240,246,.55)); }
+.exp .amt .a { color: #61B7D6; }
+
+.exp .edit:hover {
+  color: #5CB2D1;
+  background: #E8F7FC;
+}
+
+.exp .del:hover {
+  color: #D58DA8;
+  background: #FFF0F5;
+}
+
+.exp-detail {
+  background: linear-gradient(145deg, rgba(232,247,252,.87), rgba(255,241,247,.80));
+  border-color: #D0E8F1;
+}
+
+.exp-detail .d-payer {
+  color: #61B1D0;
+  border-color: #CDE6EF;
+}
+
+.exp-detail .payer-tag {
+  color: #BF7895;
+  background: #FBE7EF;
+}
+
+/* 餘額與結算 */
+.bal .bar-wrap { background: #E6F1F5; }
+
+.pos { color: #6C9B82; }
+.neg, .hint.bad { color: #D58CA7; }
+.zero { color: #9AA8B2; }
+
+.settle {
+  color: #596570;
+  background: linear-gradient(135deg, #E8F7FC, #FFF0F5);
+  border-color: #CDE7F1;
+}
+
+.settle .arrow,
+.settle .money { color: #5DB3D2; }
+
+.settle.done {
+  background: #F0F6F7;
+  border-color: #DAE7EA;
+}
+
+.allclear { color: #6C9B82; }
+
+.closed-note {
+  color: #C97F9C;
+  background: #FFF0F5;
+  border-color: #EFC8D7;
+}
+
+/* 匯率 */
+.rate-row { border-color: #D9EAF1; }
+.mini-link { color: #5EB4D3; }
+.rate-row .rate-eq,
+.rate-row .rate-anchor { color: #75848F; }
+
+/* 彈窗 */
+#toast {
+  color: #fff;
+  background: rgba(69, 86, 99, .92);
+  box-shadow: 0 11px 30px rgba(54, 98, 116, .23);
+  backdrop-filter: blur(10px);
+}
+
+.modal-bg { background: rgba(66, 101, 118, .28); }
+
+.modal {
+  background: rgba(255,255,255,.95);
+  border-color: #D3E8F1;
+  box-shadow: 0 24px 65px rgba(60, 119, 143, .22);
+}
+
+.hint,
+.meta-sub,
+.empty,
+.footer,
+.bal .v-sub { color: #99A8B2; }
+
+.footer .heart { color: #D992AE; }
+
+/* 手機版 */
+@media (max-width: 540px) {
+  .wrap { padding: 20px 14px 74px; }
+
+  .hero {
+    min-height: 0;
+    padding: 23px 19px;
+    border-radius: 27px;
+  }
+
+  .hero .logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .hero h1 { font-size: 23px; }
+  .hero h1 .en { font-size: 18px; }
+
+  .card {
+    padding: 19px 17px;
+    border-radius: 23px;
+  }
+
+  .plan-card {
+    padding: 15px 13px;
+    gap: 10px;
+  }
+
+  .plan-card .emoji {
+    width: 48px;
+    height: 48px;
+  }
+
+  .plan-card .meta {
+    line-height: 1.55;
+  }
+
+  .topbar {
+    gap: 9px;
+  }
+
+  .topbar h1 {
+    width: 100%;
+    order: -1;
+    font-size: 20px;
+  }
+
+  .rate-row {
+    flex-wrap: wrap;
+  }
+
+  .rate-row .rate-cur {
+    flex-basis: 100%;
+  }
+
+  .rate-row input {
+    flex: 1;
+    width: auto;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -365,7 +830,7 @@ const CURRENCIES = [
   ['HKD','🇭🇰 港幣 HKD'], ['SGD','🇸🇬 新幣 SGD'], ['THB','🇹🇭 泰銖 THB'],
   ['VND','🇻🇳 越南盾 VND'], ['GBP','🇬🇧 英鎊 GBP'], ['AUD','🇦🇺 澳幣 AUD'],
 ];
-const PLAN_EMOJIS = ['🍰','🧇','🍮','🥐','🧁','🍪','🥞','🍩','🍞','🫖'];
+const PLAN_EMOJIS = ['🐚','🫧','🌊','🪸','☁️','🌸','🧈','🪽','🦪','⭐'];
 
 let state = load();
 let route = { view: 'home' };            // {view:'home'} | {view:'plan', id}
@@ -908,7 +1373,7 @@ function ratesView() {
     ${rows}
     <div class="hint" style="margin-top:12px">🔒 已記錄的帳目會保留「當時填的匯率」不受影響；這張表只影響之後新記的帳。改完直接生效，所有計劃共用。</div>
   </div>
-  <div class="footer">用奶油般柔軟的心，算清每一筆帳 <span class="heart">♥</span></div>`;
+  <div class="footer">讓海風輕輕吹過，也把每一筆帳算清 <span class="heart">♥</span></div>`;
 }
 
 function homeView() {
@@ -938,17 +1403,17 @@ function homeView() {
 
   return `
   <div class="hero">
-    <div class="logo">🧈</div>
+    <div class="logo">🌊</div>
     <div>
-      <h1>奶油分帳<span class="en">Butter Split</span></h1>
-      <p>跟朋友出去玩、聚餐、旅行，把帳記在這裡，最後一鍵算清 ✨</p>
+      <h1>海鹽奶油分帳<span class="en">Butter Split</span></h1>
+      <p>一起旅行、一起記帳，在柔柔的海鹽奶油色裡一鍵算清 ✨</p>
     </div>
   </div>
 
   ${cloudCard}
 
   <div class="card">
-    <h2><span class="dot">🍯</span>開一個新計劃</h2>
+    <h2><span class="dot">🐚</span>開一段新旅程</h2>
     <div class="frow">
       <label class="f" style="flex:2">計劃名稱
         <input type="text" id="newPlanName" placeholder="例：東京五日遊、週五火鍋團…" maxlength="30">
@@ -958,7 +1423,7 @@ function homeView() {
       </label>
     </div>
     <div style="margin-top:14px; text-align:right">
-      <button class="btn btn-primary" id="btnAddPlan">＋ 建立計劃</button>
+      <button class="btn btn-primary" id="btnAddPlan">＋ 建立旅程</button>
     </div>
   </div>
 
@@ -969,10 +1434,10 @@ function homeView() {
   </div>
 
   <div class="card">
-    <h2><span class="dot">🗂️</span>我的計劃</h2>
-    ${plans || `<div class="empty"><span class="big">🍞</span>還沒有任何計劃，先開一個吧！</div>`}
+    <h2><span class="dot">🫧</span>我的旅程</h2>
+    ${plans || `<div class="empty"><span class="big">🍞</span>還沒有任何旅程，先建立一個吧！</div>`}
   </div>
-  <div class="footer">用奶油般柔軟的心，算清每一筆帳 <span class="heart">♥</span></div>`;
+  <div class="footer">讓海風輕輕吹過，也把每一筆帳算清 <span class="heart">♥</span></div>`;
 }
 
 function planView(p) {
@@ -1181,7 +1646,7 @@ function planView(p) {
     ${stHtml}
     ${settledHtml}
   </div>
-  <div class="footer">用奶油般柔軟的心，算清每一筆帳 <span class="heart">♥</span></div>`;
+  <div class="footer">讓海風輕輕吹過，也把每一筆帳算清 <span class="heart">♥</span></div>`;
 }
 
 function rateHintText(p) {
