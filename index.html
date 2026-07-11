@@ -830,12 +830,12 @@ const CURRENCIES = [
   ['HKD','🇭🇰 港幣 HKD'], ['SGD','🇸🇬 新幣 SGD'], ['THB','🇹🇭 泰銖 THB'],
   ['VND','🇻🇳 越南盾 VND'], ['GBP','🇬🇧 英鎊 GBP'], ['AUD','🇦🇺 澳幣 AUD'],
 ];
-const PLAN_EMOJIS = ['🏝️','🐚','🐬','🐠','🪸','🪼','⚓','⛵','🌅','🦀'];
+const PLAN_EMOJIS = ['🏝️','🐋','🐠','🪸','🪼','⛵','🌅','🦀','🐙','⭐'];
 
 const LEGACY_PLAN_ICON_MAP = {
-  '🍪':'🏝️', '🍰':'🐚', '🧇':'⚓', '🍮':'🪸', '🥐':'⛵',
-  '🧁':'🪼', '🥞':'🌅', '🍩':'🦀', '🍞':'🏝️', '🫖':'🐚',
-  '🍯':'🐚', '🧈':'🌊', '🐻':'🐬', '🧸':'🐬'
+  '🍪':'🏝️', '🍰':'🐋', '🧇':'⛵', '🍮':'🪸', '🥐':'🌅',
+  '🧁':'🪼', '🥞':'🐙', '🍩':'🦀', '🍞':'🏝️', '🫖':'⭐',
+  '🍯':'🐋', '🧈':'🌊', '🐻':'🐋', '🧸':'🐋'
 };
 
 function normalizePlanIcon(icon, planId = '') {
@@ -1451,7 +1451,7 @@ function homeView() {
   ${cloudCard}
 
   <div class="card">
-    <h2><span class="dot">🏝️</span>開一段新旅程</h2>
+    <h2><span class="dot">🐚</span>開一段新旅程</h2>
     <div class="frow">
       <label class="f" style="flex:2">計劃名稱
         <input type="text" id="newPlanName" placeholder="例：東京五日遊、週五火鍋團…" maxlength="30">
@@ -1472,7 +1472,7 @@ function homeView() {
   </div>
 
   <div class="card">
-    <h2><span class="dot">🫧</span>我的旅程</h2>
+    <h2><span class="dot">🧳</span>我的旅程</h2>
     ${plans || `<div class="empty"><span class="big">✨</span>還沒有任何旅程，先建立一個吧！</div>`}
   </div>
   <div class="footer">讓海風輕輕吹過，也把每一筆帳算清 <span class="heart">♥</span></div>`;
@@ -1485,7 +1485,7 @@ function planView(p) {
 
   /* members */
   const chips = p.members.map(m => `
-    <span class="chip">${esc(m.name)}${locked ? '' : `<span class="x" data-delmember="${m.id}" title="移除成員">×</span>`}</span>
+    <span class="chip">🐬 ${esc(m.name)}${locked ? '' : `<span class="x" data-delmember="${m.id}" title="移除成員">×</span>`}</span>
   `).join('');
 
   /* expense form */
