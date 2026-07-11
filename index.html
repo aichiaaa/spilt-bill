@@ -1239,6 +1239,228 @@ label.f { color: #72818D; }
   }
 }
 
+
+
+/* =========================================================
+   Butter Split｜莫內花園・深粉藍油畫風
+   CSS 純色塊與漸層模擬油畫，不使用任何圖片
+   保留原本功能與手機版排版
+   ========================================================= */
+
+:root {
+  --monet-blue-1: #7FAEDD;
+  --monet-blue-2: #A8C7EA;
+  --monet-blue-3: #C6D8F1;
+  --monet-pink-1: #E7AFC8;
+  --monet-pink-2: #F0C9DB;
+  --monet-lilac: #C9BDE6;
+  --monet-cream: #F7EEF2;
+}
+
+/* 深一點的粉藍、粉紫、玫瑰油畫背景 */
+body {
+  background:
+    radial-gradient(ellipse at 8% 8%, rgba(95, 151, 213, .88) 0%, transparent 35%),
+    radial-gradient(ellipse at 84% 13%, rgba(231, 164, 198, .78) 0%, transparent 34%),
+    radial-gradient(ellipse at 25% 46%, rgba(126, 175, 224, .66) 0%, transparent 40%),
+    radial-gradient(ellipse at 88% 58%, rgba(205, 177, 226, .66) 0%, transparent 37%),
+    radial-gradient(ellipse at 18% 88%, rgba(224, 157, 193, .64) 0%, transparent 36%),
+    radial-gradient(ellipse at 77% 90%, rgba(118, 168, 220, .68) 0%, transparent 38%),
+    linear-gradient(
+      145deg,
+      #78A9DA 0%,
+      #A4C2E5 27%,
+      #D0C9E8 52%,
+      #E6B6CF 75%,
+      #91B9E1 100%
+    ) !important;
+  background-attachment: fixed;
+}
+
+/* 模擬大面積油畫筆觸 */
+body::before {
+  width: 620px !important;
+  height: 620px !important;
+  left: -230px !important;
+  top: -70px !important;
+  opacity: .60 !important;
+  filter: blur(3px) saturate(.96) !important;
+  background:
+    radial-gradient(ellipse at 30% 25%, rgba(255, 225, 235, .70) 0 10%, transparent 23%),
+    radial-gradient(ellipse at 58% 42%, rgba(237, 173, 207, .64) 0 12%, transparent 25%),
+    radial-gradient(ellipse at 38% 69%, rgba(247, 202, 221, .58) 0 10%, transparent 24%),
+    radial-gradient(ellipse at 72% 76%, rgba(176, 198, 232, .55) 0 14%, transparent 28%),
+    conic-gradient(
+      from 40deg,
+      rgba(137, 174, 220, .62),
+      rgba(235, 187, 214, .54),
+      rgba(190, 183, 225, .50),
+      rgba(116, 166, 215, .58)
+    ) !important;
+  border-radius: 43% 57% 55% 45% / 48% 42% 58% 52% !important;
+  transform: rotate(-15deg) !important;
+}
+
+/* 右下角花團與藍色筆觸 */
+body::after {
+  width: 660px !important;
+  height: 560px !important;
+  right: -280px !important;
+  bottom: -120px !important;
+  opacity: .58 !important;
+  filter: blur(3px) saturate(.95) !important;
+  background:
+    radial-gradient(circle at 28% 28%, rgba(247, 202, 224, .78) 0 7%, transparent 15%),
+    radial-gradient(circle at 50% 20%, rgba(232, 165, 203, .74) 0 8%, transparent 17%),
+    radial-gradient(circle at 66% 45%, rgba(246, 192, 217, .72) 0 9%, transparent 18%),
+    radial-gradient(circle at 35% 62%, rgba(218, 148, 191, .66) 0 8%, transparent 17%),
+    radial-gradient(circle at 61% 72%, rgba(239, 184, 214, .70) 0 9%, transparent 19%),
+    conic-gradient(
+      from 210deg,
+      rgba(103, 151, 208, .62),
+      rgba(175, 187, 224, .54),
+      rgba(231, 166, 203, .54),
+      rgba(94, 145, 204, .62)
+    ) !important;
+  border-radius: 54% 46% 42% 58% / 47% 58% 42% 53% !important;
+  transform: rotate(11deg) !important;
+}
+
+/* 首頁主視覺 */
+.hero {
+  background:
+    radial-gradient(circle at 82% 72%, rgba(232, 157, 198, .68), transparent 30%),
+    radial-gradient(circle at 16% 18%, rgba(255, 235, 243, .80), transparent 29%),
+    linear-gradient(
+      145deg,
+      rgba(124, 176, 225, .94) 0%,
+      rgba(183, 204, 235, .94) 46%,
+      rgba(229, 175, 207, .94) 100%
+    ) !important;
+  border-color: rgba(246, 226, 238, .90) !important;
+}
+
+/* 奶白玻璃卡片：讓文字在深背景上仍舒服 */
+.card {
+  background: rgba(255, 251, 253, .89) !important;
+  border-color: rgba(224, 210, 232, .88) !important;
+  box-shadow:
+    0 12px 34px rgba(72, 104, 158, .17),
+    inset 0 1px 0 rgba(255, 255, 255, .96) !important;
+}
+
+/* 計畫卡 */
+.plan-card {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 252, 254, .92),
+      rgba(245, 243, 252, .88)
+    ) !important;
+  border-color: rgba(218, 208, 232, .90) !important;
+}
+
+/* 小圖示底色帶花園色盤 */
+.card h2 .dot,
+.plan-card .emoji,
+.exp .icon {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(191, 218, 244, .88),
+      rgba(239, 197, 219, .84),
+      rgba(211, 199, 235, .82)
+    ) !important;
+  border-color: rgba(224, 209, 232, .90) !important;
+}
+
+/* 成員標籤 */
+.chip {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(198, 222, 245, .88),
+      rgba(240, 202, 220, .88)
+    ) !important;
+  border-color: rgba(207, 199, 229, .88) !important;
+}
+
+/* 主要按鈕 */
+.btn-primary {
+  background:
+    linear-gradient(
+      135deg,
+      #72A9DA 0%,
+      #A8BCE3 48%,
+      #DE9FC0 100%
+    ) !important;
+  box-shadow: 0 8px 20px rgba(101, 133, 190, .30) !important;
+}
+
+/* 奶油按鈕改成粉藍花瓣色 */
+.btn-butter {
+  background:
+    linear-gradient(
+      135deg,
+      #C3DDF3 0%,
+      #D6CBEA 48%,
+      #EDBDD3 100%
+    ) !important;
+}
+
+/* 表單保持淺色易讀 */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+  background: rgba(255, 253, 254, .92) !important;
+  border-color: rgba(196, 210, 233, .94) !important;
+}
+
+input:focus,
+select:focus {
+  border-color: #8DAFDB !important;
+  box-shadow: 0 0 0 4px rgba(141, 175, 219, .23) !important;
+}
+
+/* 淡淡花瓣光暈，沒有使用圖片 */
+.cloud-setup,
+.exp-detail,
+.settle {
+  background:
+    radial-gradient(circle at 88% 18%, rgba(238, 188, 215, .30), transparent 28%),
+    linear-gradient(
+      145deg,
+      rgba(238, 247, 254, .91),
+      rgba(255, 240, 248, .89)
+    ) !important;
+}
+
+/* 手機：維持同一色系，不另外洗白 */
+@media (max-width: 540px) {
+  body {
+    background:
+      radial-gradient(ellipse at 8% 8%, rgba(91, 149, 211, .90) 0%, transparent 36%),
+      radial-gradient(ellipse at 88% 15%, rgba(229, 157, 195, .82) 0%, transparent 34%),
+      radial-gradient(ellipse at 22% 48%, rgba(119, 169, 221, .70) 0%, transparent 40%),
+      radial-gradient(ellipse at 86% 62%, rgba(197, 169, 222, .70) 0%, transparent 38%),
+      radial-gradient(ellipse at 17% 90%, rgba(221, 151, 189, .68) 0%, transparent 37%),
+      linear-gradient(
+        145deg,
+        #75A6D7 0%,
+        #A2BFE3 28%,
+        #CCC5E5 53%,
+        #E3B0CA 76%,
+        #8DB5DE 100%
+      ) !important;
+    background-attachment: fixed;
+  }
+
+  .card {
+    background: rgba(255, 251, 253, .91) !important;
+  }
+}
+
 </style>
 </head>
 <body>
