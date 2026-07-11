@@ -1262,6 +1262,94 @@ label.f { color: #72818D; }
   }
 }
 
+
+
+/* =========================================================
+   最終背景：粉藍紫海鹽奶油護眼版
+   僅調整背景、Hero 與卡片透明度，其餘功能與排版不變
+   ========================================================= */
+body {
+  background:
+    radial-gradient(circle at 12% 10%, rgba(176, 218, 248, .55), transparent 34%),
+    radial-gradient(circle at 88% 16%, rgba(241, 195, 220, .52), transparent 32%),
+    radial-gradient(circle at 18% 84%, rgba(202, 221, 255, .40), transparent 35%),
+    radial-gradient(circle at 90% 84%, rgba(224, 201, 249, .38), transparent 34%),
+    linear-gradient(155deg,
+      #E8F4FD 0%,
+      #DDEBFA 36%,
+      #F2DDEB 72%,
+      #F4EEFA 100%) !important;
+  background-attachment: fixed;
+}
+
+body::before {
+  opacity: .42 !important;
+  background: linear-gradient(
+    145deg,
+    rgba(169, 213, 242, .34),
+    rgba(255, 255, 255, .08),
+    rgba(239, 190, 217, .24)
+  ) !important;
+}
+
+body::after {
+  opacity: .38 !important;
+  background: linear-gradient(
+    150deg,
+    rgba(238, 199, 223, .22),
+    rgba(201, 220, 250, .18),
+    rgba(220, 199, 246, .18)
+  ) !important;
+}
+
+.hero {
+  background:
+    radial-gradient(circle at 76% 72%, rgba(241, 195, 220, .58), transparent 30%),
+    radial-gradient(circle at 22% 15%, rgba(255, 255, 255, .74), transparent 28%),
+    linear-gradient(
+      150deg,
+      #B8DFF5 0%,
+      #D8EAF8 48%,
+      #EBCFE1 100%
+    ) !important;
+}
+
+.card {
+  background: rgba(255, 255, 255, .87) !important;
+}
+
+@media (max-width: 540px) {
+  body {
+    background:
+      radial-gradient(circle at 10% 8%, rgba(171, 215, 247, .58), transparent 34%),
+      radial-gradient(circle at 90% 18%, rgba(241, 194, 220, .55), transparent 32%),
+      radial-gradient(circle at 20% 84%, rgba(203, 220, 252, .42), transparent 35%),
+      radial-gradient(circle at 88% 86%, rgba(223, 201, 248, .40), transparent 34%),
+      linear-gradient(
+        155deg,
+        #E6F2FC 0%,
+        #DAE9F8 36%,
+        #F1DCE9 72%,
+        #F3EDF9 100%
+      ) !important;
+  }
+
+  .hero {
+    background:
+      radial-gradient(circle at 72% 70%, rgba(240, 192, 218, .62), transparent 30%),
+      linear-gradient(
+        150deg,
+        #B4DCF3 0%,
+        #D6E8F7 48%,
+        #EACDDF 100%
+      ) !important;
+  }
+
+  .card {
+    background: rgba(255, 255, 255, .89) !important;
+  }
+}
+
 </style>
 </head>
 <body>
