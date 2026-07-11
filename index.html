@@ -830,7 +830,33 @@ const CURRENCIES = [
   ['HKD','🇭🇰 港幣 HKD'], ['SGD','🇸🇬 新幣 SGD'], ['THB','🇹🇭 泰銖 THB'],
   ['VND','🇻🇳 越南盾 VND'], ['GBP','🇬🇧 英鎊 GBP'], ['AUD','🇦🇺 澳幣 AUD'],
 ];
-const PLAN_EMOJIS = ['🐚','🫧','🪸','🐋','🐬','🐠','🦀','🪼','🏝️','⛵'];
+const PLAN_EMOJIS = ['🏝️','🐚','🐬','🐠','🪸','🪼','⚓','⛵','🌅','🦀'];
+
+const LEGACY_PLAN_ICON_MAP = {
+  '🍪':'🏝️', '🍰':'🐚', '🧇':'⚓', '🍮':'🪸', '🥐':'⛵',
+  '🧁':'🪼', '🥞':'🌅', '🍩':'🦀', '🍞':'🏝️', '🫖':'🐚',
+  '🍯':'🐚', '🧈':'🌊', '🐻':'🐬', '🧸':'🐬'
+};
+
+function normalizePlanIcon(icon, planId = '') {
+  if (LEGACY_PLAN_ICON_MAP[icon]) return LEGACY_PLAN_ICON_MAP[icon];
+  if (PLAN_EMOJIS.includes(icon)) return icon;
+  // 舊資料沒有圖示或是未知圖示時，用 planId 穩定選一個，不會每次重整改變。
+  const seed = String(planId || 'sea').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
+  return PLAN_EMOJIS[seed % PLAN_EMOJIS.length];
+}
+
+function migratePlanIcons(plans = []) {
+  let changed = false;
+  for (const plan of plans) {
+    const next = normalizePlanIcon(plan.emoji, plan.id);
+    if (plan.emoji !== next) {
+      plan.emoji = next;
+      changed = true;
+    }
+  }
+  return changed;
+}
 
 let state = load();
 let route = { view: 'home' };            // {view:'home'} | {view:'plan', id}
@@ -845,6 +871,7 @@ function load() {
   let s;
   try { s = JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch { s = {}; }
   s.plans = s.plans || [];
+  migratePlanIcons(s.plans);
   // global exchange rates, shared by every plan: 1 unit of currency = values[code] units of anchor
   s.rates = s.rates || { anchor: 'TWD', updatedAt: null, source: null, values: { TWD: 1 } };
   return s;
@@ -932,7 +959,16 @@ async function cloudBootstrap() {
     const { plan } = await apiGet({ action: 'plan', id: m.id });
     if (plan) state.plans.push(plan);
   }
+
+  const iconDataChanged = migratePlanIcons(state.plans);
   localStorage.setItem(LS_KEY, JSON.stringify(state));
+
+  // 把 Google 試算表中的舊甜點／小熊封面也一次改成海洋圖示。
+  if (iconDataChanged) {
+    for (const plan of state.plans) {
+      await apiPost({ action: 'savePlan', plan });
+    }
+  }
 }
 
 async function pollCloud() {
@@ -947,6 +983,7 @@ async function pollCloud() {
 async function pollPlan(id) {
   const { plan } = await apiGet({ action: 'plan', id });
   if (!plan) return;
+  plan.emoji = normalizePlanIcon(plan.emoji, plan.id);
   const local = getPlan(id);
   if (local && (plan.updatedAt || '') <= (local.updatedAt || '')) return;
   const idx = state.plans.findIndex(p => p.id === id);
@@ -966,6 +1003,7 @@ async function pollHome() {
     if (local && (m.updatedAt || '') <= (local.updatedAt || '')) continue;
     const { plan } = await apiGet({ action: 'plan', id: m.id });
     if (!plan) continue;
+    plan.emoji = normalizePlanIcon(plan.emoji, plan.id);
     const idx = state.plans.findIndex(p => p.id === plan.id);
     if (idx >= 0) state.plans[idx] = plan;
     else state.plans.unshift(plan);
@@ -1381,7 +1419,7 @@ function homeView() {
     const total = planTotal(p);
     return `
     <div class="plan-card" data-open="${p.id}">
-      <div class="emoji">${p.emoji}</div>
+      <div class="emoji">${normalizePlanIcon(p.emoji, p.id)}</div>
       <div class="info">
         <div class="name">${esc(p.name)}</div>
         <div class="meta">👥 ${p.members.length} 人 ・ 🦀 ${p.expenses.length} 筆 ・ 共 ${fmt(total)} ${p.baseCurrency} ・ ${p.createdAt}</div>
@@ -1603,7 +1641,7 @@ function planView(p) {
   return `
   <div class="topbar">
     <button class="btn btn-ghost btn-sm" id="btnBack">← 回計劃列表</button>
-    <h1>${p.emoji} ${esc(p.name)}
+    <h1>${normalizePlanIcon(p.emoji, p.id)} ${esc(p.name)}
       <span class="badge ${locked ? 'badge-closed' : 'badge-open'}">${locked ? '🌙 已結案' : '🌱 進行中'}</span>
     </h1>
     ${cloudEnabled() ? '<span class="sync-badge" id="syncBadge">已連線 ☁️</span>' : ''}
