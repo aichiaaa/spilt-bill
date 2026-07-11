@@ -50,7 +50,7 @@
     position: relative; overflow: hidden;
   }
   .hero::after {
-    content: "🌊"; position: absolute; right: 18px; bottom: -14px;
+    content: "<span class='i i-logo'></span>"; position: absolute; right: 18px; bottom: -14px;
     font-size: 74px; opacity: .18; transform: rotate(-12deg);
   }
   .hero .logo {
@@ -799,6 +799,25 @@ label.f { color: #72818D; }
 }
 
 </style>
+
+<style>
+.i{display:inline-block;width:1.1em;height:1.1em;vertical-align:-0.15em;
+background-repeat:no-repeat;background-size:contain}
+.i-logo{background-image:url('assets/icons/logo-wave.svg')}
+.i-island{background-image:url('assets/icons/island.svg')}
+.i-trip{background-image:url('assets/icons/trip.svg')}
+.i-cloud{background-image:url('assets/icons/cloud.svg')}
+.i-anchor{background-image:url('assets/icons/anchor.svg')}
+.i-dolphin{background-image:url('assets/icons/dolphin.svg')}
+.i-shell{background-image:url('assets/icons/shell.svg')}
+.i-fish{background-image:url('assets/icons/fish.svg')}
+.i-wave{background-image:url('assets/icons/wave.svg')}
+.i-sail{background-image:url('assets/icons/sail.svg')}
+.i-coral{background-image:url('assets/icons/coral.svg')}
+.i-rock{background-image:url('assets/icons/rock.svg')}
+.i-bubble{background-image:url('assets/icons/bubble.svg')}
+</style>
+
 </head>
 <body>
 <div class="wrap" id="app"></div>
@@ -830,7 +849,7 @@ const CURRENCIES = [
   ['HKD','🇭🇰 港幣 HKD'], ['SGD','🇸🇬 新幣 SGD'], ['THB','🇹🇭 泰銖 THB'],
   ['VND','🇻🇳 越南盾 VND'], ['GBP','🇬🇧 英鎊 GBP'], ['AUD','🇦🇺 澳幣 AUD'],
 ];
-const PLAN_EMOJIS = ['🐚','🫧','🌊','🪸','☁️','🌸','🌊','🪽','🦪','⭐'];
+const PLAN_EMOJIS = ['🐚','🫧','🌊','🪸','<span class='i i-cloud'></span>','🌸','<span class='i i-logo'></span>','🪽','🦪','⭐'];
 
 let state = load();
 let route = { view: 'home' };            // {view:'home'} | {view:'plan', id}
@@ -874,7 +893,7 @@ async function cloudFlush(opts) {
         await apiPost({ action: 'savePlan', plan: p });
       }
     }
-    setSyncBadge('ok', '已同步 ☁️');
+    setSyncBadge('ok', '已同步 <span class='i i-cloud'></span>');
   } catch (e) {
     setSyncBadge('err', '同步失敗');
     console.error(e);
@@ -1011,7 +1030,7 @@ async function init() {
         if (p) route = { view: 'plan', id: urlPlan };
         else toast('找不到這個計劃連結');
       }
-      setSyncBadge('ok', '已連線 ☁️');
+      setSyncBadge('ok', '已連線 <span class='i i-cloud'></span>');
     } catch (e) {
       setSyncBadge('err', '雲端載入失敗');
       toast('雲端載入失敗，先用本機資料');
@@ -1137,7 +1156,7 @@ const memberName = (plan, id) => (plan.members.find(m => m.id === id) || { name:
 function addPlan() {
   const name = document.getElementById('newPlanName').value.trim();
   const cur = document.getElementById('newPlanCur').value;
-  if (!name) return toast('先幫計劃取個名字吧 🏝️');
+  if (!name) return toast('先幫計劃取個名字吧 <span class='i i-island'></span>');
   state.plans.unshift({
     id: uid(), name, baseCurrency: cur, closed: false,
     emoji: PLAN_EMOJIS[Math.floor(Math.random() * PLAN_EMOJIS.length)],
@@ -1152,7 +1171,7 @@ function addPlan() {
 function deletePlan(id) {
   const p = getPlan(id);
   confirmBox({
-    emoji: '🪨', title: `刪除「${p.name}」？`,
+    emoji: '<span class='i i-rock'></span>', title: `刪除「${p.name}」？`,
     body: '計劃裡的成員與帳目會一起消失，這個動作無法復原喔。', okText: '刪除',
   }, () => {
     state.plans = state.plans.filter(x => x.id !== id);
@@ -1166,7 +1185,7 @@ function deletePlan(id) {
 function closePlan(id) {
   const p = getPlan(id);
   confirmBox({
-    emoji: '🌙', title: `結案「${p.name}」？`,
+    emoji: '🔒', title: `結案「${p.name}」？`,
     body: '結案後就不能再新增或修改任何帳目，只能查看結算結果。確定大家都對完帳了嗎？',
     okText: '結案！', danger: false,
   }, () => {
@@ -1181,7 +1200,7 @@ function addMember(planId) {
   if (p.closed) return;
   const input = document.getElementById('newMemberName');
   const name = input.value.trim();
-  if (!name) return toast('輸入成員的名字吧 ☁️');
+  if (!name) return toast('輸入成員的名字吧 <span class='i i-cloud'></span>');
   if (p.members.some(m => m.name === name)) return toast('已經有同名的成員囉');
   const member = { id: uid(), name };
   p.members.push(member);
@@ -1213,7 +1232,7 @@ function deleteExpense(planId, eid) {
   if (p.closed) return;
   const e = p.expenses.find(x => x.id === eid);
   confirmBox({
-    emoji: '🦀', title: `刪除「${e.desc}」？`, body: '這筆帳會從結算中移除。', okText: '刪除',
+    emoji: '<span class='i i-shell'></span>', title: `刪除「${e.desc}」？`, body: '這筆帳會從結算中移除。', okText: '刪除',
   }, () => {
     p.expenses = p.expenses.filter(x => x.id !== eid);
     if (editingExpenseId === eid) {
@@ -1246,7 +1265,7 @@ function editExpense(planId, eid) {
     document.getElementById('expDesc')?.focus();
     document.getElementById('expenseFormCard')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
-  toast(`正在編輯「${e.desc}」🪸`);
+  toast(`正在編輯「${e.desc}」<span class='i i-coral'></span>`);
 }
 
 function cancelEditExpense(planId) {
@@ -1288,7 +1307,7 @@ function submitExpense(planId) {
   const f = expForm;
   const amount = parseFloat(f.amount);
   const rate = parseFloat(f.rate);
-  if (!f.desc.trim()) return toast('這筆錢花在哪裡呢？寫個名目吧 🪸');
+  if (!f.desc.trim()) return toast('這筆錢花在哪裡呢？寫個名目吧 <span class='i i-coral'></span>');
   if (!(amount > 0)) return toast('金額要大於 0 喔');
   if (!(rate > 0)) return toast('匯率要大於 0 喔');
   if (!f.payerId) return toast('要選一位付款人');
@@ -1321,7 +1340,7 @@ function submitExpense(planId) {
     p.expenses.unshift({ id: uid(), ...expenseData });
     expForm = blankExpForm(p);
     save({ planId }); render();
-    toast('記好這一筆了 🦀');
+    toast('記好這一筆了 <span class='i i-shell'></span>');
   }
 }
 
@@ -1353,8 +1372,8 @@ function ratesView() {
   return `
   <div class="topbar">
     <button class="btn btn-ghost btn-sm" id="btnRatesBack">← 返回</button>
-    <h1>⚓ 匯率管理</h1>
-    ${cloudEnabled() ? '<span class="sync-badge" id="syncBadge">已連線 ☁️</span>' : ''}
+    <h1><span class='i i-anchor'></span> 匯率管理</h1>
+    ${cloudEnabled() ? '<span class="sync-badge" id="syncBadge">已連線 <span class='i i-cloud'></span></span>' : ''}
     <button class="btn btn-primary btn-sm" id="btnFetchRates">🌐 抓取最新匯率</button>
   </div>
   <div class="card">
@@ -1367,11 +1386,11 @@ function ratesView() {
     <div class="hint">記帳時會用這張表自動換算成各計劃的主幣別（例如主幣別是日圓、消費是韓元，也算得出來）。</div>
   </div>
   <div class="card">
-    <h2><span class="dot">⚓</span>匯率表（已設定 ${setCount} 種）
+    <h2><span class="dot"><span class='i i-anchor'></span></span>匯率表（已設定 ${setCount} 種）
       <span class="meta-sub" id="ratesMeta">${R.updatedAt ? `${R.source || '✍️ 手動維護'}・${R.updatedAt}` : '尚未設定，直接輸入或按右上抓取'}</span>
     </h2>
     ${rows}
-    <div class="hint" style="margin-top:12px">🌙 已記錄的帳目會保留「當時填的匯率」不受影響；這張表只影響之後新記的帳。改完直接生效，所有計劃共用。</div>
+    <div class="hint" style="margin-top:12px">🔒 已記錄的帳目會保留「當時填的匯率」不受影響；這張表只影響之後新記的帳。改完直接生效，所有計劃共用。</div>
   </div>
   <div class="footer">讓海風輕輕吹過，也把每一筆帳算清 <span class="heart">♥</span></div>`;
 }
@@ -1384,18 +1403,18 @@ function homeView() {
       <div class="emoji">${p.emoji}</div>
       <div class="info">
         <div class="name">${esc(p.name)}</div>
-        <div class="meta">👥 ${p.members.length} 人 ・ 🦀 ${p.expenses.length} 筆 ・ 共 ${fmt(total)} ${p.baseCurrency} ・ ${p.createdAt}</div>
+        <div class="meta">👥 ${p.members.length} 人 ・ <span class='i i-shell'></span> ${p.expenses.length} 筆 ・ 共 ${fmt(total)} ${p.baseCurrency} ・ ${p.createdAt}</div>
       </div>
-      <span class="badge ${p.closed ? 'badge-closed' : 'badge-open'}">${p.closed ? '🌙 已結案' : '🌊 進行中'}</span>
-      <button class="btn btn-ghost btn-sm" data-delplan="${p.id}" title="刪除計劃">🪨</button>
+      <span class="badge ${p.closed ? 'badge-closed' : 'badge-open'}">${p.closed ? '🔒 已結案' : '🌱 進行中'}</span>
+      <button class="btn btn-ghost btn-sm" data-delplan="${p.id}" title="刪除計劃"><span class='i i-rock'></span></button>
     </div>`;
   }).join('');
 
   const cloudCard = cloudEnabled() ? `
   <div class="card cloud-setup">
-    <h2><span class="dot">☁️</span>雲端同步</h2>
+    <h2><span class="dot"><span class='i i-cloud'></span></span>雲端同步</h2>
     <div class="ok-line">✅ 已連線 Google 試算表，每 ${POLL_HOME_MS / 1000} 秒自動刷新</div>
-    <div class="hint" style="margin-top:8px">進入計劃後按「🪼 分享」把連結傳給朋友，對方打開就能同步看到帳目。</div>
+    <div class="hint" style="margin-top:8px">進入計劃後按「<span class='i i-bubble'></span> 分享」把連結傳給朋友，對方打開就能同步看到帳目。</div>
     <div style="margin-top:12px; text-align:right">
       <button class="btn btn-ghost btn-sm" id="btnCloudRefresh">🔄 立即刷新</button>
     </div>
@@ -1428,7 +1447,7 @@ function homeView() {
   </div>
 
   <div class="card" id="goRates" style="cursor:pointer" title="維護共用匯率表">
-    <h2 style="margin-bottom:0"><span class="dot">⚓</span>我的匯率
+    <h2 style="margin-bottom:0"><span class="dot"><span class='i i-anchor'></span></span>我的匯率
       <span class="meta-sub">${(() => { const R = state.rates; const n = CURRENCIES.filter(([c]) => R.values[c] > 0).length; return R.updatedAt ? `已設定 ${n} 種・${R.updatedAt}` : '尚未設定，點我維護'; })()} →</span>
     </h2>
   </div>
@@ -1447,15 +1466,15 @@ function planView(p) {
 
   /* members */
   const chips = p.members.map(m => `
-    <span class="chip">🐬 ${esc(m.name)}${locked ? '' : `<span class="x" data-delmember="${m.id}" title="移除成員">×</span>`}</span>
+    <span class="chip"><span class='i i-dolphin'></span> ${esc(m.name)}${locked ? '' : `<span class="x" data-delmember="${m.id}" title="移除成員">×</span>`}</span>
   `).join('');
 
   /* expense form */
   const isBase = expForm.currency === p.baseCurrency;
   const formHtml = locked ? '' : `
   <div class="card" id="expenseFormCard">
-    <h2><span class="dot">${editingExpenseId ? '🪸' : '🦀'}</span>${editingExpenseId ? '編輯帳目' : '記一筆'}</h2>
-    ${p.members.length === 0 ? `<div class="empty"><span class="big">🐬</span>先在上面新增成員，才能開始記帳喔</div>` : `
+    <h2><span class="dot">${editingExpenseId ? '<span class='i i-coral'></span>' : '<span class='i i-shell'></span>'}</span>${editingExpenseId ? '編輯帳目' : '記一筆'}</h2>
+    ${p.members.length === 0 ? `<div class="empty"><span class="big"><span class='i i-dolphin'></span></span>先在上面新增成員，才能開始記帳喔</div>` : `
     <div class="frow">
       <label class="f" style="flex:2">名目
         <input type="text" id="expDesc" placeholder="例：燒肉晚餐、飯店住宿…" value="${esc(expForm.desc)}" maxlength="40">
@@ -1478,7 +1497,7 @@ function planView(p) {
         <input type="date" id="expDate" value="${esc(expForm.date || today())}">
       </label>
     </div>
-    ${isBase ? '' : `<div class="hint" id="rateHint"><span id="rateHintText">${rateHintText(p)}</span> <span class="mini-link" id="goRatesFromPlan">⚓ 維護匯率</span></div>`}
+    ${isBase ? '' : `<div class="hint" id="rateHint"><span id="rateHintText">${rateHintText(p)}</span> <span class="mini-link" id="goRatesFromPlan"><span class='i i-anchor'></span> 維護匯率</span></div>`}
     <div style="margin-top:14px">
       <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:10px">
         <span style="font-size:12.5px; font-weight:700; color:var(--mocha)">分給誰</span>
@@ -1495,7 +1514,7 @@ function planView(p) {
       <div class="custom-splits">
         ${expForm.participants.map(id => `
         <div class="row">
-          <span class="nm">🐬 ${esc(memberName(p, id))}</span>
+          <span class="nm"><span class='i i-dolphin'></span> ${esc(memberName(p, id))}</span>
           <input type="number" data-custom="${id}" min="0" step="any" placeholder="0" value="${esc(expForm.customAmounts[id] ?? '')}">
         </div>`).join('')}
         ${customSumHint(p)}
@@ -1515,14 +1534,14 @@ function planView(p) {
     const shares = expenseShares(e);
     const detail = !open ? '' : `
       <div class="exp-detail">
-        <div class="d-payer">💎 ${esc(memberName(p, e.payerId))} 先付了 ${fmt(e.amount)} ${e.currency}
+        <div class="d-payer">💰 ${esc(memberName(p, e.payerId))} 先付了 ${fmt(e.amount)} ${e.currency}
           ${isB ? '' : `<span class="d-rate">匯率 1 ${e.currency} = ${e.rate} ${p.baseCurrency}</span>`}
         </div>
         ${e.participants.map(pid => {
           const orig = e.splitType === 'custom' ? (e.customAmounts[pid] || 0) : e.amount / e.participants.length;
           return `
           <div class="d-row">
-            <span class="d-nm">🐬 ${esc(memberName(p, pid))}${pid === e.payerId ? '<span class="payer-tag">💎 付款人</span>' : ''}</span>
+            <span class="d-nm"><span class='i i-dolphin'></span> ${esc(memberName(p, pid))}${pid === e.payerId ? '<span class="payer-tag">💰 付款人</span>' : ''}</span>
             <span class="d-amt">分擔 ${fmt(orig)} ${e.currency}${isB ? '' : ` <span class="d-sub">≈ ${fmt(shares[pid])} ${p.baseCurrency}</span>`}</span>
           </div>`;
         }).join('')}
@@ -1530,7 +1549,7 @@ function planView(p) {
     return `
     <div class="exp-wrap ${open ? 'open' : ''}">
       <div class="exp" data-togexp="${e.id}">
-        <div class="icon">🦞</div>
+        <div class="icon">💸</div>
         <div class="body">
           <div class="t">${esc(e.desc)}</div>
           <div class="s">${esc(memberName(p, e.payerId))} 付款 ・ ${e.splitType === 'custom' ? '自訂' : '均分'}給 ${e.participants.length} 人 ・ ${e.date}</div>
@@ -1539,7 +1558,7 @@ function planView(p) {
           <div class="a">${fmt(e.amount)} ${e.currency}</div>
           ${isB ? '' : `<div class="c">≈ ${fmt(base)} ${p.baseCurrency}</div>`}
         </div>
-        ${locked ? '' : `<button class="edit" data-editexp="${e.id}" title="編輯">🪸</button><button class="del" data-delexp="${e.id}" title="刪除">🪨</button>`}
+        ${locked ? '' : `<button class="edit" data-editexp="${e.id}" title="編輯"><span class='i i-coral'></span></button><button class="del" data-delexp="${e.id}" title="刪除"><span class='i i-rock'></span></button>`}
         <span class="chev">▶</span>
       </div>
       ${detail}
@@ -1564,7 +1583,7 @@ function planView(p) {
     }
     return `
     <div class="bal">
-      <span class="nm">🐬 ${esc(m.name)}</span>
+      <span class="nm"><span class='i i-dolphin'></span> ${esc(m.name)}</span>
       <div class="bar-wrap">
         <div class="bar-half">${v < -0.005 ? `<div class="bar" style="right:0; width:${pct}%; background:linear-gradient(90deg,#EFB6B2,#E08E8A)"></div>` : ''}</div>
         <div class="bar-half">${v > 0.005 ? `<div class="bar" style="left:0; width:${pct}%; background:linear-gradient(90deg,#B9CBA4,#A3B98C)"></div>` : ''}</div>
@@ -1582,9 +1601,9 @@ function planView(p) {
         p.expenses.length ? '大家都互不相欠，太完美了！' : '還沒有帳目，記完帳這裡會告訴你誰該給誰錢'}</div>`
     : st.map(s => `
       <div class="settle">
-        <span>🐬 ${esc(memberName(p, s.from))}</span>
+        <span><span class='i i-dolphin'></span> ${esc(memberName(p, s.from))}</span>
         <span class="arrow">━➤</span>
-        <span>🐬 ${esc(memberName(p, s.to))}</span>
+        <span><span class='i i-dolphin'></span> ${esc(memberName(p, s.to))}</span>
         <span class="money">${fmt(s.amount)} ${p.baseCurrency}</span>
         <button class="btn btn-butter btn-sm" data-settle-from="${s.from}" data-settle-to="${s.to}" data-settle-amt="${s.amount}">✓ 已結清</button>
       </div>`).join('');
@@ -1592,9 +1611,9 @@ function planView(p) {
     <div class="settled-head">✅ 已結清紀錄（${settled.length} 筆）</div>
     ${settled.map(sp => `
       <div class="settle done">
-        <span>🐬 ${esc(memberName(p, sp.from))}</span>
+        <span><span class='i i-dolphin'></span> ${esc(memberName(p, sp.from))}</span>
         <span class="arrow">━➤</span>
-        <span>🐬 ${esc(memberName(p, sp.to))}</span>
+        <span><span class='i i-dolphin'></span> ${esc(memberName(p, sp.to))}</span>
         <span class="done-date">${sp.date}</span>
         <span class="money">${fmt(sp.amount)} ${p.baseCurrency}</span>
         <button class="btn btn-ghost btn-sm" data-unsettle="${sp.id}" title="取消這筆結清">↩</button>
@@ -1604,16 +1623,16 @@ function planView(p) {
   <div class="topbar">
     <button class="btn btn-ghost btn-sm" id="btnBack">← 回計劃列表</button>
     <h1>${p.emoji} ${esc(p.name)}
-      <span class="badge ${locked ? 'badge-closed' : 'badge-open'}">${locked ? '🌙 已結案' : '🌊 進行中'}</span>
+      <span class="badge ${locked ? 'badge-closed' : 'badge-open'}">${locked ? '🔒 已結案' : '🌱 進行中'}</span>
     </h1>
-    ${cloudEnabled() ? '<span class="sync-badge" id="syncBadge">已連線 ☁️</span>' : ''}
-    <button class="btn btn-ghost btn-sm" id="btnShare" title="複製分享連結">🪼 分享</button>
-    ${locked ? '' : `<button class="btn btn-primary btn-sm" id="btnClose">🌙 結案</button>`}
+    ${cloudEnabled() ? '<span class="sync-badge" id="syncBadge">已連線 <span class='i i-cloud'></span></span>' : ''}
+    <button class="btn btn-ghost btn-sm" id="btnShare" title="複製分享連結"><span class='i i-bubble'></span> 分享</button>
+    ${locked ? '' : `<button class="btn btn-primary btn-sm" id="btnClose">🔒 結案</button>`}
   </div>
-  ${locked ? `<div class="closed-note">🌙 這個計劃已於 ${p.closedAt || ''} 結案，帳目只能查看、不能再更動囉。</div>` : ''}
+  ${locked ? `<div class="closed-note">🔒 這個計劃已於 ${p.closedAt || ''} 結案，帳目只能查看、不能再更動囉。</div>` : ''}
 
   <div class="card">
-    <h2><span class="dot">🐬</span>成員（${p.members.length}）</h2>
+    <h2><span class="dot"><span class='i i-dolphin'></span></span>成員（${p.members.length}）</h2>
     <div class="chips">${chips || `<span class="empty" style="padding:4px">還沒有成員</span>`}</div>
     ${locked ? '' : `
     <div class="frow" style="margin-top:14px">
@@ -1625,12 +1644,12 @@ function planView(p) {
   ${formHtml}
 
   <div class="card">
-    <h2><span class="dot">🐠</span>帳目（${p.expenses.length}）<span style="margin-left:auto; font-size:13px; color:var(--mocha)">總計 ${fmt(planTotal(p))} ${p.baseCurrency}</span></h2>
+    <h2><span class="dot"><span class='i i-fish'></span></span>帳目（${p.expenses.length}）<span style="margin-left:auto; font-size:13px; color:var(--mocha)">總計 ${fmt(planTotal(p))} ${p.baseCurrency}</span></h2>
     ${expList || `<div class="empty"><span class="big">🍩</span>還沒有帳目</div>`}
   </div>
 
   <div class="card">
-    <h2><span class="dot">🌅</span>每人餘額
+    <h2><span class="dot"><span class='i i-wave'></span></span>每人餘額
       <span class="meta-sub" style="display:flex; align-items:center; gap:8px">＋該收回／－該付出
         <select id="balCur" class="cur-mini" title="加顯示換算幣別">
           <option value="">只顯示 ${p.baseCurrency}</option>
@@ -1642,7 +1661,7 @@ function planView(p) {
   </div>
 
   <div class="card">
-    <h2><span class="dot">⛵</span>結算方案（最少轉帳次數）</h2>
+    <h2><span class="dot"><span class='i i-sail'></span></span>結算方案（最少轉帳次數）</h2>
     ${stHtml}
     ${settledHtml}
   </div>
